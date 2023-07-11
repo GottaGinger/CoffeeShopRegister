@@ -1,7 +1,14 @@
+using CoffeeShopRegister.Models;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+IConfigurationBuilder buildConfig = new ConfigurationBuilder().AddJsonFile("appsettings.json", false, true);
+IConfiguration configuration = buildConfig.Build();
+builder.Services.AddDbContext<CoffeeDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("CoffeeConnection")));
 
 var app = builder.Build();
 
